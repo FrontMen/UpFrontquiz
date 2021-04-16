@@ -2,10 +2,10 @@ type Quiz {
   id: String!
   active: Boolean!
   currentQuestion: Int
+  questions: [Question]!
 }
 
 type Question {
-  quizId: String!
   question: String!
 }
 
@@ -22,13 +22,12 @@ type User {
 }
 
 type UserState {
-  player1: User!
-  player2: User!
+  player1: User
+  player2: User
 }
 
 type Query {
   users: [User]!
-  question: Question
 }
 
 type Mutation {
@@ -40,7 +39,6 @@ type Mutation {
 
 type Subscription {
   timer: Int
-  question: Question
   quiz: Quiz
   users(userId: String): UserState
 }

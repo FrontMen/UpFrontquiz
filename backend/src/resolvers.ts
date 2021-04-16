@@ -1,11 +1,17 @@
 import { v4 } from "uuid";
-import { getUsers, userJoin, reset, getQuestion, startQuiz } from "./data";
+import {
+  getUsers,
+  userJoin,
+  reset,
+  startQuiz,
+  publishQuiz,
+  publishUsers,
+} from "./data";
 import { Resolvers } from "./types";
 
 export const resolvers: Resolvers = {
   Query: {
     users: async () => getUsers(),
-    question: async () => getQuestion(),
   },
   Mutation: {
     join: async (_, args) => {
@@ -18,23 +24,31 @@ export const resolvers: Resolvers = {
     startQuiz: async () => {
       return startQuiz();
     },
+    answerQuestion: async (_, args) => {
+      args.userId;
+      return null;
+    },
   },
   Subscription: {
     timer: {
-      resolve: async () => Math.round(Date.now() / 1000),
-      subscribe: async (root, args, { pubsub }) => {
+      subscribe: async (_root, _args, { pubsub }) => {
         return await pubsub.subscribe("TIMER");
       },
     },
-    users: {
-      resolve: async () => getUsers(),
-      subscribe: async (root, args, { pubsub }) => {
-        return await pubsub.subscribe("USER_CHANGE");
+    quiz: {
+      subscribe: async (_root, _args, { pubsub }) => {
+        process.nextTick(async () => {
+          publishQuiz();
+        });
+        return await pubsub.subscribe(`QUIZ_CHANGE`);
       },
     },
-    question: {
-      subscribe: async (root, args, { pubsub }) => {
-        return await pubsub.subscribe("QUESTION_CHANGE");
+    users: {
+      subscribe: async (_root, { userId }, { pubsub }) => {
+        process.nextTick(async () => {
+          publishUsers();
+        });
+        return await pubsub.subscribe(`${userId}_USER_CHANGE`);
       },
     },
   },
