@@ -17,6 +17,9 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   join?: Maybe<User>;
+  startQuiz?: Maybe<Scalars['Boolean']>;
+  answerQuestion?: Maybe<Scalars['Boolean']>;
+  reset?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -24,10 +27,16 @@ export type MutationJoinArgs = {
   name: Scalars['String'];
 };
 
+
+export type MutationAnswerQuestionArgs = {
+  userId?: Maybe<Scalars['String']>;
+  answer?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  questions?: Maybe<Array<Maybe<Question>>>;
   users: Array<Maybe<User>>;
+  question?: Maybe<Question>;
 };
 
 export type Question = {
@@ -38,7 +47,9 @@ export type Question = {
 
 export type Quiz = {
   __typename?: 'Quiz';
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  active: Scalars['Boolean'];
+  currentQuestion?: Maybe<Scalars['Int']>;
 };
 
 export type Results = {
@@ -51,6 +62,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   timer?: Maybe<Scalars['Int']>;
   question?: Maybe<Question>;
+  quiz?: Maybe<Quiz>;
   users: Array<Maybe<User>>;
 };
 
@@ -58,6 +70,8 @@ export type User = {
   __typename?: 'User';
   id: Scalars['String'];
   name: Scalars['String'];
+  timeLeft: Scalars['Int'];
+  active: Scalars['Boolean'];
 };
 
 export type JoinMutationVariables = Exact<{
@@ -88,7 +102,7 @@ export type GetUsersSubscription = (
   { __typename?: 'Subscription' }
   & { users: Array<Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'id' | 'name'>
+    & Pick<User, 'id' | 'name' | 'timeLeft' | 'active'>
   )>> }
 );
 
@@ -159,6 +173,8 @@ export const GetUsersDocument = gql`
   users {
     id
     name
+    timeLeft
+    active
   }
 }
     `;

@@ -11,6 +11,8 @@ export const getUsers = gql`
     users {
       id
       name
+      timeLeft
+      active
     }
   }
 `;

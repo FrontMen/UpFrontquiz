@@ -1,21 +1,24 @@
-import { useState } from "react"
+import { useState } from 'react';
+import { useGetUsersSubscription } from '../graphql';
 
-import { TPlayerGameState } from '@types'
+import { TPlayerGameState } from '@types';
 
 export const useGameState = () => {
+  const { name } = useGetUsersSubscription();
   const [player1, setPlayer1] = useState<TPlayerGameState>({
     // @TODO: bind to data
     name: 'Team 1',
-    isActive: false
-  })
+    isActive: false,
+  });
   const [player2, setPlayer2] = useState<TPlayerGameState>({
     // @TODO: bind to data
     name: 'Team 2',
-    isActive: false
-  })
+    isActive: false,
+  });
+
   const getPlayerById = (id: number): TPlayerGameState => {
-    return id === 1 ? player1 : player2
-  }
+    return id === 1 ? player1 : player2;
+  };
 
   return {
     player1,
@@ -23,7 +26,7 @@ export const useGameState = () => {
     setPlayer1,
     setPlayer2,
     getPlayerById,
-  }
-}
+  };
+};
 
-export default useGameState
+export default useGameState;
