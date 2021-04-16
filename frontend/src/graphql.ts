@@ -72,6 +72,14 @@ export type JoinMutation = (
   )> }
 );
 
+export type TestTimerSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TestTimerSubscription = (
+  { __typename?: 'Subscription' }
+  & Pick<Subscription, 'timer'>
+);
+
 
 export const JoinDocument = gql`
     mutation Join($name: String!) {
@@ -107,3 +115,30 @@ export function useJoinMutation(baseOptions?: Apollo.MutationHookOptions<JoinMut
 export type JoinMutationHookResult = ReturnType<typeof useJoinMutation>;
 export type JoinMutationResult = Apollo.MutationResult<JoinMutation>;
 export type JoinMutationOptions = Apollo.BaseMutationOptions<JoinMutation, JoinMutationVariables>;
+export const TestTimerDocument = gql`
+    subscription testTimer {
+  timer
+}
+    `;
+
+/**
+ * __useTestTimerSubscription__
+ *
+ * To run a query within a React component, call `useTestTimerSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useTestTimerSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTestTimerSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTestTimerSubscription(baseOptions?: Apollo.SubscriptionHookOptions<TestTimerSubscription, TestTimerSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<TestTimerSubscription, TestTimerSubscriptionVariables>(TestTimerDocument, options);
+      }
+export type TestTimerSubscriptionHookResult = ReturnType<typeof useTestTimerSubscription>;
+export type TestTimerSubscriptionResult = Apollo.SubscriptionResult<TestTimerSubscription>;
