@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node src/main.ts",
+    "build": "tsc",
     "gen": "graphql-codegen"
   },
   "dependencies": {

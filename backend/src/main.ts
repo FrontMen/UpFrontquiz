@@ -31,6 +31,6 @@ app.get("/", async function (req, reply) {
 });
 
 (async function () {
-  await app.listen(3000);
+  await app.listen(3000, "0.0.0.0");
   console.log("Graphql server running on http://127.0.0.1:3000/graphql");
 })();

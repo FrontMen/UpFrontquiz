@@ -10,9 +10,9 @@ export default function Home() {
     <main className={styles.container}>
       <Background />
       <div className={styles.main}>
-        <Player id={1} />
+        <Player name="player1" id={1} />
         <AnswersList />
-        <Player id={2} />
+        <Player name="player2" id={2} />
       </div>
       <section>
         <button>Pass</button>
