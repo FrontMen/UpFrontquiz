@@ -2,11 +2,9 @@ import { PropsWithChildren } from 'react';
 
 import styles from './Questions.module.scss';
 
-export interface QuestionsProps {
-  submitButtonText: string;
-}
+export interface QuestionsProps {}
 
-const Questions = ({ submitButtonText }: PropsWithChildren<QuestionsProps>) => {
+const Questions = ({}: PropsWithChildren<QuestionsProps>) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     // event.preventDefault();
     console.log(event);
@@ -19,7 +17,7 @@ const Questions = ({ submitButtonText }: PropsWithChildren<QuestionsProps>) => {
       </div>
       <form className={styles.answerForm} onSubmit={(event) => handleSubmit(event)} method="POST">
         <input className={`${styles.answerField} ${styles.answerInput}`} autoComplete="off" name="answer" type="text" />
-        <input className={`${styles.answerField} ${styles.answerSubmit}`} type="submit" value={submitButtonText} />
+        <input className={`${styles.answerField} ${styles.answerSubmit}`} type="submit" value="Answer" />
       </form>
     </section>
   );
