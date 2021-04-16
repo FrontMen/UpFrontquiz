@@ -1,0 +1,57 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: red;
+}
+
+.playersContainer {
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 auto;
+  height: 100%;
+
+  .p1,
+  .p2 {
+    position: relative;
+    display: flex;
+    flex: 1 1 auto;
+    height: 100%;
+
+    &--active {
+    }
+  }
+
+  .p1 {
+    background: blue;
+    
+    &--active {
+      flex-basis: 66%;
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 2px;
+      background: white;
+      z-index: 3;
+    }
+  }
+
+  .p2 {
+    background: red;
+
+    &--active {
+      flex-basis: 66%;
+    }
+  }
+}
+
+.switchBtn {
+}
