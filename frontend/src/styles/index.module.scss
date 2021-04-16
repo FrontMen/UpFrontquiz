@@ -14,9 +14,9 @@
 }
 
 .passBtnWrapper {
+  position: relative;
   flex: 0 0 100px;
   height: 100px;
-  position: relative;
   margin-bottom: 50px;
 
   button {
@@ -28,13 +28,35 @@
     border-radius: 100%;
     border: 0;
     transform: translateX(-50%);
+    outline: none;
+    border: 6px solid white;
+    color: white;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 2px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+
+    &:active {
+      box-shadow: none;
+      letter-spacing: 0px;
+      font-size: 18px;
+    }
 
     &[data-active-player="1"] {
       left: calc(100% - 300px);
+      background: rgb(255, 0, 0);
+      background: linear-gradient(180deg, rgba(255, 0, 0, 1) 0%, rgba(156, 19, 19, 1) 100%);
+
+      &:active {
+        background: linear-gradient(0deg, rgba(255, 0, 0, 1) 0%, rgba(156, 19, 19, 1) 100%);
+      }
     }
 
     &[data-active-player="2"] {
       left: 300px;
+      background: rgb(0, 24, 255);
+      background: linear-gradient(180deg, rgba(0, 24, 255, 1) 0%, rgba(1, 11, 107, 1) 100%);
     }
   }
 }

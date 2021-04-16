@@ -4,12 +4,13 @@ import { useEffect, useState } from "react"
 import { TPlayerGameState } from '@types';
 
 export const useGameState = () => {
-  // const { name } = useGetUsersSubscription();
+  const { loading: isLoading, data } = useGetUsersSubscription();
 
   const [player1, setPlayer1] = useState<TPlayerGameState>(null)
   const [player2, setPlayer2] = useState<TPlayerGameState>(null)
   const [users, setUsers] = useState<null | TPlayerGameState[]>(null)
   const [activePlayerId, setActivePlayerId] = useState(null)
+  const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
     if (users?.length === 2) {
@@ -26,16 +27,21 @@ export const useGameState = () => {
   }, [users])
 
   useEffect(() => {
-
-  }, [])
+    if (activePlayerId) {
+      setIsReady(true)
+    }
+  }, [activePlayerId])
 
   const getPlayerById = (playerId: string): TPlayerGameState => users?.find(({ id }) => id === playerId);
 
   return {
+    isLoading,
     player1,
     player2,
     getPlayerById,
     activePlayerId,
+    isReady,
+    setUsers,
   }
 }
 

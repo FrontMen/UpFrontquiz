@@ -12,7 +12,7 @@ export default function Player({ id }: TPlayerProps) {
     return (
         <section className={styles.wrapper}>
             {
-                id ? (
+                id && !gameState.isLoading ? (
                     <>
                         <header>
                             <h2>{gameState?.getPlayerById(id)?.name}</h2>
