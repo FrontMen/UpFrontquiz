@@ -1,0 +1,12 @@
+type Question {
+  title: String
+}
+
+type Query {
+  questions: [Question]
+  add(x: Int, y: Int): Int
+}
+
+type Subscription {
+  timer: Int
+}
