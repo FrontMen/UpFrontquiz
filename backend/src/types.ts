@@ -16,6 +16,9 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   join?: Maybe<User>;
+  startQuiz?: Maybe<Scalars['Boolean']>;
+  answerQuestion?: Maybe<Scalars['Boolean']>;
+  reset?: Maybe<Scalars['Boolean']>;
 };
 
 
@@ -23,10 +26,16 @@ export type MutationJoinArgs = {
   name: Scalars['String'];
 };
 
+
+export type MutationAnswerQuestionArgs = {
+  userId?: Maybe<Scalars['String']>;
+  answer?: Maybe<Scalars['String']>;
+};
+
 export type Query = {
   __typename?: 'Query';
-  questions?: Maybe<Array<Maybe<Question>>>;
   users: Array<Maybe<User>>;
+  question?: Maybe<Question>;
 };
 
 export type Question = {
@@ -37,7 +46,9 @@ export type Question = {
 
 export type Quiz = {
   __typename?: 'Quiz';
-  id?: Maybe<Scalars['String']>;
+  id: Scalars['String'];
+  active: Scalars['Boolean'];
+  currentQuestion?: Maybe<Scalars['Int']>;
 };
 
 export type Results = {
@@ -50,6 +61,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   timer?: Maybe<Scalars['Int']>;
   question?: Maybe<Question>;
+  quiz?: Maybe<Quiz>;
   users: Array<Maybe<User>>;
 };
 
@@ -57,6 +69,8 @@ export type User = {
   __typename?: 'User';
   id: Scalars['String'];
   name: Scalars['String'];
+  timeLeft: Scalars['Int'];
+  active: Scalars['Boolean'];
 };
 
 
@@ -139,37 +153,40 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Query: ResolverTypeWrapper<{}>;
   Question: ResolverTypeWrapper<Question>;
   Quiz: ResolverTypeWrapper<Quiz>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Results: ResolverTypeWrapper<Results>;
   Subscription: ResolverTypeWrapper<{}>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   User: ResolverTypeWrapper<User>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Mutation: {};
   String: Scalars['String'];
+  Boolean: Scalars['Boolean'];
   Query: {};
   Question: Question;
   Quiz: Quiz;
+  Int: Scalars['Int'];
   Results: Results;
   Subscription: {};
-  Int: Scalars['Int'];
   User: User;
-  Boolean: Scalars['Boolean'];
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   join?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationJoinArgs, 'name'>>;
+  startQuiz?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  answerQuestion?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType, RequireFields<MutationAnswerQuestionArgs, never>>;
+  reset?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  questions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Question']>>>, ParentType, ContextType>;
   users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
+  question?: Resolver<Maybe<ResolversTypes['Question']>, ParentType, ContextType>;
 };
 
 export type QuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Question'] = ResolversParentTypes['Question']> = {
@@ -179,7 +196,9 @@ export type QuestionResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type QuizResolvers<ContextType = any, ParentType extends ResolversParentTypes['Quiz'] = ResolversParentTypes['Quiz']> = {
-  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  currentQuestion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -192,12 +211,15 @@ export type ResultsResolvers<ContextType = any, ParentType extends ResolversPare
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   timer?: SubscriptionResolver<Maybe<ResolversTypes['Int']>, "timer", ParentType, ContextType>;
   question?: SubscriptionResolver<Maybe<ResolversTypes['Question']>, "question", ParentType, ContextType>;
+  quiz?: SubscriptionResolver<Maybe<ResolversTypes['Quiz']>, "quiz", ParentType, ContextType>;
   users?: SubscriptionResolver<Array<Maybe<ResolversTypes['User']>>, "users", ParentType, ContextType>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  timeLeft?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  active?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

@@ -3,7 +3,11 @@
 
 import { EventEmitter } from "events";
 
-export type PUBSUB_EVENTS = "TIMER" | "USER_CHANGE";
+export type PUBSUB_EVENTS =
+  | "TIMER"
+  | "USER_CHANGE"
+  | "QUIZ_CHANGE"
+  | "QUESTION_CHANGE";
 
 class PubSub {
   emitter: EventEmitter;
