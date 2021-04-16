@@ -1,6 +1,6 @@
 import styles from '~/styles/background.module.scss'
 
-import useGameState from '~/hooks/gameState'
+import useGameState from '../hooks/gameState'
 import { useEffect } from 'react'
 
 const BackgroundComponent = () => {
