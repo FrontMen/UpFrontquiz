@@ -7,7 +7,7 @@ export class AppService {
   }
 
   getTimeDuration(): any {
-    const maxTime = 180000;
+    const maxTime = 180;
     let startTime: number | null = null;
     let stopTime: number | null = null;
     let running: boolean = false;
@@ -18,15 +18,15 @@ export class AppService {
     };
 
     function getStartTime(): void {
-      const startClock = new Date();
+      const startClock = Math.round(Date.now() / 1000);
       running = true;
-      startTime = startClock.getTime();
+      startTime = startClock;
     }
 
     function getStopTime(): void {
-      const stopClock = new Date();
+      const stopClock = Math.round(Date.now() / 1000);
       running = false;
-      stopTime = stopClock.getTime();
+      stopTime = stopClock;
     }
 
     function timeDuration() {
@@ -51,7 +51,7 @@ export class AppService {
     if (timeDuration() >= maxTime) {
       timeSettings = {
         message: "Sorry your time is up",
-        timeDuration: 180000,
+        timeDuration: 180,
         running: false,
       };
     }
