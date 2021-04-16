@@ -3,13 +3,15 @@
 
 import { EventEmitter } from "events";
 
+export type PUBSUB_EVENTS = "TIMER" | "USER_CHANGE";
+
 class PubSub {
   emitter: EventEmitter;
   constructor() {
     this.emitter = new EventEmitter();
   }
 
-  async subscribe(topic, queue) {
+  async subscribe(topic: PUBSUB_EVENTS, queue: any) {
     const listener = (value) => {
       queue.push(value);
     };
@@ -22,7 +24,10 @@ class PubSub {
     queue.close = close;
   }
 
-  publish(event: any, callback?: () => void) {
+  publish(
+    event: { topic: PUBSUB_EVENTS; payload: any },
+    callback?: () => void
+  ) {
     this.emitter.emit(event.topic, event.payload);
     callback && callback();
   }

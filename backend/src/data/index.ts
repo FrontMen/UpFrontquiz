@@ -1,4 +1,5 @@
 import { User, Quiz } from "../types";
+import { pubsub } from "../pubsub";
 
 // const Quiz: Quiz = { id: "123" };
 
@@ -11,6 +12,12 @@ export async function userJoin(id: string, name: string) {
       name,
     };
     users.push(user);
+    pubsub.publish({
+      topic: "USER_CHANGE",
+      payload: {
+        users,
+      },
+    });
     return user;
   }
   throw Error("There are already 2 users in the game");
