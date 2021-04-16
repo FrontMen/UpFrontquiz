@@ -7,7 +7,8 @@ export type PUBSUB_EVENTS =
   | "TIMER"
   | "USER_CHANGE"
   | "QUIZ_CHANGE"
-  | "QUESTION_CHANGE";
+  | "QUESTION_CHANGE"
+  | string;
 
 class PubSub {
   emitter: EventEmitter;

@@ -1,5 +1,5 @@
 import { useGetUsersSubscription } from '../graphql';
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
 import { TPlayerGameState } from '@types';
 
@@ -14,17 +14,17 @@ export const useGameState = () => {
 
   useEffect(() => {
     if (users?.length === 2) {
-      const [player1, player2] = users
-      setPlayer1(player1)
-      setPlayer2(player2)
+      const [player1, player2] = users;
+      setPlayer1(player1);
+      setPlayer2(player2);
 
       if (!activePlayerId) {
-        setActivePlayerId(player1.id)
+        setActivePlayerId(player1.id);
       }
     } else if (users?.length) {
       // PENDING FOR SECOND PLAYER
     }
-  }, [users])
+  }, [users]);
 
   useEffect(() => {
     if (activePlayerId) {
