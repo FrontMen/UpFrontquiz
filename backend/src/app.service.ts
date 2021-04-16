@@ -1,15 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Hello World!';
+    return "Hello World!";
   }
 
   getTimeDuration(): object {
     const maxTime = 180000;
-    let startTime = null;
-    let stopTime = null;
+    let startTime: number | null = null;
+    let stopTime: number | null = null;
     let running = false;
 
     function getStartTime(): void {
@@ -22,23 +22,26 @@ export class AppService {
       stopTime = stopClock.getTime();
     }
 
-    function timeDuration(): number {
+    function timeDuration() {
+      let timeDuration = 0;
       getStartTime();
       getStopTime();
-      const time = this.stopTime - this.startTime;
 
-      return time;
+      if (stopTime !== null && startTime !== null) {
+        timeDuration = stopTime - startTime;
+      }
+      return timeDuration;
     }
 
-    if (stopTime < maxTime) {
+    if (timeDuration() < maxTime) {
       return {
         message: `Answerd in: ${timeDuration()} s`,
       };
     }
 
-    if (stopTime >= maxTime) {
+    if (timeDuration() >= maxTime) {
       return {
-        message: 'Sorry your time is up',
+        message: "Sorry your time is up",
       };
     }
   }
