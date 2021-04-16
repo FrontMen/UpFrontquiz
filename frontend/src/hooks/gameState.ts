@@ -1,32 +1,42 @@
-import { useState } from 'react';
 import { useGetUsersSubscription } from '../graphql';
+import { useEffect, useState } from "react"
 
 import { TPlayerGameState } from '@types';
 
 export const useGameState = () => {
-  const { name } = useGetUsersSubscription();
-  const [player1, setPlayer1] = useState<TPlayerGameState>({
-    // @TODO: bind to data
-    name: 'Team 1',
-    isActive: false,
-  });
-  const [player2, setPlayer2] = useState<TPlayerGameState>({
-    // @TODO: bind to data
-    name: 'Team 2',
-    isActive: false,
-  });
+  // const { name } = useGetUsersSubscription();
 
-  const getPlayerById = (id: number): TPlayerGameState => {
-    return id === 1 ? player1 : player2;
-  };
+  const [player1, setPlayer1] = useState<TPlayerGameState>(null)
+  const [player2, setPlayer2] = useState<TPlayerGameState>(null)
+  const [users, setUsers] = useState<null | TPlayerGameState[]>(null)
+  const [activePlayerId, setActivePlayerId] = useState(null)
+
+  useEffect(() => {
+    if (users?.length === 2) {
+      const [player1, player2] = users
+      setPlayer1(player1)
+      setPlayer2(player2)
+
+      if (!activePlayerId) {
+        setActivePlayerId(player1.id)
+      }
+    } else if (users?.length) {
+      // PENDING FOR SECOND PLAYER
+    }
+  }, [users])
+
+  useEffect(() => {
+
+  }, [])
+
+  const getPlayerById = (playerId: string): TPlayerGameState => users?.find(({ id }) => id === playerId);
 
   return {
     player1,
     player2,
-    setPlayer1,
-    setPlayer2,
     getPlayerById,
-  };
-};
+    activePlayerId,
+  }
+}
 
 export default useGameState;

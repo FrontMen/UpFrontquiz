@@ -1,7 +1,12 @@
-import '~/styles/globals.css';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { splitLink } from './apolloClient'
 
-const client = new ApolloClient({ uri: 'http://95.211.247.249:3000/graphql', cache: new InMemoryCache() });
+import '~/styles/globals.css';
+
+const client = new ApolloClient({
+  link: splitLink,
+  cache: new InMemoryCache()
+});
 
 function MyApp({ Component, pageProps }) {
   return (

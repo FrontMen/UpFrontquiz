@@ -12,3 +12,29 @@
     height: 100%;
   }
 }
+
+.passBtnWrapper {
+  flex: 0 0 100px;
+  height: 100px;
+  position: relative;
+  margin-bottom: 50px;
+
+  button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    border: 0;
+    transform: translateX(-50%);
+
+    &[data-active-player="1"] {
+      left: calc(100% - 300px);
+    }
+
+    &[data-active-player="2"] {
+      left: 300px;
+    }
+  }
+}
