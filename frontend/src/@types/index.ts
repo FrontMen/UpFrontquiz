@@ -6,4 +6,5 @@ export type TPlayerGameState = {
 
 export type TPlayerProps = {
   id: string
+  timeLeft: number
 }
