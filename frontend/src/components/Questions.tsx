@@ -6,7 +6,7 @@ export interface QuestionsProps {}
 
 const Questions = ({}: PropsWithChildren<QuestionsProps>) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    // event.preventDefault();
+    event.preventDefault();
     console.log(event);
   };
 
