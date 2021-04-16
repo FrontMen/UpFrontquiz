@@ -1,19 +1,16 @@
-import styles from '~/styles/background.module.scss'
+import styles from '~/styles/background.module.scss';
 
-import useGameState from '../hooks/gameState'
-import { useEffect } from 'react'
+interface BackgroundProps {
+  active: 1 | 2 | null;
+}
 
-const BackgroundComponent = () => {
-  const gameState = useGameState()
-
+export const Background: React.FC<BackgroundProps> = ({ active }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.playersContainer}>
-        <div className={[styles.p1, ...(gameState.activePlayerId === gameState?.player1?.id ? [styles[`p1--active`]] : [])].join(' ')} />
-        <div className={[styles.p2, ...(gameState.activePlayerId === gameState?.player2?.id ? [styles[`p2--active`]] : [])].join(' ')} />
+        <div className={[styles.p1, ...(active === 1 ? [styles[`p1--active`]] : [])].join(' ')} />
+        <div className={[styles.p2, ...(active === 2 ? [styles[`p2--active`]] : [])].join(' ')} />
       </div>
     </div>
-  )
-}
-
-export default BackgroundComponent
+  );
+};

@@ -1,48 +1,31 @@
-import { useGetUsersSubscription } from '../graphql';
-import { useEffect, useState } from 'react';
+import { useGetUsersSubscription, useGetQuizSubscription } from '../graphql';
+import { createState, useState as useGlobalState } from '@hookstate/core';
 
-import { TPlayerGameState } from '@types';
+const activePlayerIdState = createState<string | null>(null);
 
 export const useGameState = () => {
-  const { loading: isLoading, data } = useGetUsersSubscription();
+  const activePlayerId = useGlobalState(activePlayerIdState);
+  const { data: usersData, error: usersError } = useGetUsersSubscription({
+    skip: !activePlayerId.value,
+    variables: { userId: activePlayerId.value },
+  });
+  const { data: quizData, error: quizError } = useGetQuizSubscription({
+    skip: !activePlayerId.value,
+  });
 
-  const [player1, setPlayer1] = useState<TPlayerGameState>(null)
-  const [player2, setPlayer2] = useState<TPlayerGameState>(null)
-  const [users, setUsers] = useState<null | TPlayerGameState[]>(null)
-  const [activePlayerId, setActivePlayerId] = useState(null)
-  const [isReady, setIsReady] = useState(false)
-
-  useEffect(() => {
-    if (users?.length === 2) {
-      const [player1, player2] = users;
-      setPlayer1(player1);
-      setPlayer2(player2);
-
-      if (!activePlayerId) {
-        setActivePlayerId(player1.id);
-      }
-    } else if (users?.length) {
-      // PENDING FOR SECOND PLAYER
-    }
-  }, [users]);
-
-  useEffect(() => {
-    if (activePlayerId) {
-      setIsReady(true)
-    }
-  }, [activePlayerId])
-
-  const getPlayerById = (playerId: string): TPlayerGameState => users?.find(({ id }) => id === playerId);
-
-  return {
-    isLoading,
-    player1,
-    player2,
-    getPlayerById,
-    activePlayerId,
-    isReady,
-    setUsers,
+  if (usersError || quizError) {
+    console.log({ usersError, quizError });
   }
-}
+
+  const state = {
+    activePlayerId: activePlayerId.value,
+    setActivePlayerId: activePlayerId.set,
+    quiz: quizData?.quiz,
+    player1: usersData?.users?.player1,
+    player2: usersData?.users?.player2,
+  };
+  console.log(state);
+  return state;
+};
 
 export default useGameState;

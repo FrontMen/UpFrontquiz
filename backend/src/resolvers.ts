@@ -1,3 +1,4 @@
+import { PubSub } from "mercurius";
 import { v4 } from "uuid";
 import {
   getUsers,
@@ -6,10 +7,11 @@ import {
   startQuiz,
   publishQuiz,
   publishUsers,
+  answerQuestion,
 } from "./data";
 import { Resolvers } from "./types";
 
-export const resolvers: Resolvers = {
+export const resolvers: Resolvers<{ pubsub: PubSub }> = {
   Query: {
     users: async () => getUsers(),
   },
@@ -24,8 +26,8 @@ export const resolvers: Resolvers = {
     startQuiz: async () => {
       return startQuiz();
     },
-    answerQuestion: async (_, args) => {
-      args.userId;
+    answerQuestion: async (_, { userId }) => {
+      answerQuestion(userId);
       return null;
     },
   },

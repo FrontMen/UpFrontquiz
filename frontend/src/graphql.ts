@@ -36,12 +36,10 @@ export type MutationAnswerQuestionArgs = {
 export type Query = {
   __typename?: 'Query';
   users: Array<Maybe<User>>;
-  question?: Maybe<Question>;
 };
 
 export type Question = {
   __typename?: 'Question';
-  quizId: Scalars['String'];
   question: Scalars['String'];
 };
 
@@ -50,6 +48,7 @@ export type Quiz = {
   id: Scalars['String'];
   active: Scalars['Boolean'];
   currentQuestion?: Maybe<Scalars['Int']>;
+  questions: Array<Maybe<Question>>;
 };
 
 export type Results = {
@@ -61,9 +60,13 @@ export type Results = {
 export type Subscription = {
   __typename?: 'Subscription';
   timer?: Maybe<Scalars['Int']>;
-  question?: Maybe<Question>;
   quiz?: Maybe<Quiz>;
-  users: Array<Maybe<User>>;
+  users?: Maybe<UserState>;
+};
+
+
+export type SubscriptionUsersArgs = {
+  userId?: Maybe<Scalars['String']>;
 };
 
 export type User = {
@@ -72,6 +75,12 @@ export type User = {
   name: Scalars['String'];
   timeLeft: Scalars['Int'];
   active: Scalars['Boolean'];
+};
+
+export type UserState = {
+  __typename?: 'UserState';
+  player1?: Maybe<User>;
+  player2?: Maybe<User>;
 };
 
 export type JoinMutationVariables = Exact<{
@@ -87,6 +96,16 @@ export type JoinMutation = (
   )> }
 );
 
+export type AnswerQuestionMutationVariables = Exact<{
+  userId: Scalars['String'];
+}>;
+
+
+export type AnswerQuestionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'answerQuestion'>
+);
+
 export type TestTimerSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -95,15 +114,38 @@ export type TestTimerSubscription = (
   & Pick<Subscription, 'timer'>
 );
 
-export type GetUsersSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type GetUsersSubscriptionVariables = Exact<{
+  userId: Scalars['String'];
+}>;
 
 
 export type GetUsersSubscription = (
   { __typename?: 'Subscription' }
-  & { users: Array<Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'timeLeft' | 'active'>
-  )>> }
+  & { users?: Maybe<(
+    { __typename?: 'UserState' }
+    & { player1?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'timeLeft' | 'active'>
+    )>, player2?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'id' | 'name' | 'timeLeft' | 'active'>
+    )> }
+  )> }
+);
+
+export type GetQuizSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetQuizSubscription = (
+  { __typename?: 'Subscription' }
+  & { quiz?: Maybe<(
+    { __typename?: 'Quiz' }
+    & Pick<Quiz, 'id' | 'active' | 'currentQuestion'>
+    & { questions: Array<Maybe<(
+      { __typename?: 'Question' }
+      & Pick<Question, 'question'>
+    )>> }
+  )> }
 );
 
 
@@ -141,6 +183,37 @@ export function useJoinMutation(baseOptions?: Apollo.MutationHookOptions<JoinMut
 export type JoinMutationHookResult = ReturnType<typeof useJoinMutation>;
 export type JoinMutationResult = Apollo.MutationResult<JoinMutation>;
 export type JoinMutationOptions = Apollo.BaseMutationOptions<JoinMutation, JoinMutationVariables>;
+export const AnswerQuestionDocument = gql`
+    mutation answerQuestion($userId: String!) {
+  answerQuestion(userId: $userId)
+}
+    `;
+export type AnswerQuestionMutationFn = Apollo.MutationFunction<AnswerQuestionMutation, AnswerQuestionMutationVariables>;
+
+/**
+ * __useAnswerQuestionMutation__
+ *
+ * To run a mutation, you first call `useAnswerQuestionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAnswerQuestionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [answerQuestionMutation, { data, loading, error }] = useAnswerQuestionMutation({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useAnswerQuestionMutation(baseOptions?: Apollo.MutationHookOptions<AnswerQuestionMutation, AnswerQuestionMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<AnswerQuestionMutation, AnswerQuestionMutationVariables>(AnswerQuestionDocument, options);
+      }
+export type AnswerQuestionMutationHookResult = ReturnType<typeof useAnswerQuestionMutation>;
+export type AnswerQuestionMutationResult = Apollo.MutationResult<AnswerQuestionMutation>;
+export type AnswerQuestionMutationOptions = Apollo.BaseMutationOptions<AnswerQuestionMutation, AnswerQuestionMutationVariables>;
 export const TestTimerDocument = gql`
     subscription testTimer {
   timer
@@ -169,12 +242,20 @@ export function useTestTimerSubscription(baseOptions?: Apollo.SubscriptionHookOp
 export type TestTimerSubscriptionHookResult = ReturnType<typeof useTestTimerSubscription>;
 export type TestTimerSubscriptionResult = Apollo.SubscriptionResult<TestTimerSubscription>;
 export const GetUsersDocument = gql`
-    subscription getUsers {
-  users {
-    id
-    name
-    timeLeft
-    active
+    subscription getUsers($userId: String!) {
+  users(userId: $userId) {
+    player1 {
+      id
+      name
+      timeLeft
+      active
+    }
+    player2 {
+      id
+      name
+      timeLeft
+      active
+    }
   }
 }
     `;
@@ -191,12 +272,47 @@ export const GetUsersDocument = gql`
  * @example
  * const { data, loading, error } = useGetUsersSubscription({
  *   variables: {
+ *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useGetUsersSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetUsersSubscription, GetUsersSubscriptionVariables>) {
+export function useGetUsersSubscription(baseOptions: Apollo.SubscriptionHookOptions<GetUsersSubscription, GetUsersSubscriptionVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useSubscription<GetUsersSubscription, GetUsersSubscriptionVariables>(GetUsersDocument, options);
       }
 export type GetUsersSubscriptionHookResult = ReturnType<typeof useGetUsersSubscription>;
 export type GetUsersSubscriptionResult = Apollo.SubscriptionResult<GetUsersSubscription>;
+export const GetQuizDocument = gql`
+    subscription getQuiz {
+  quiz {
+    id
+    active
+    currentQuestion
+    questions {
+      question
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetQuizSubscription__
+ *
+ * To run a query within a React component, call `useGetQuizSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGetQuizSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetQuizSubscription({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetQuizSubscription(baseOptions?: Apollo.SubscriptionHookOptions<GetQuizSubscription, GetQuizSubscriptionVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useSubscription<GetQuizSubscription, GetQuizSubscriptionVariables>(GetQuizDocument, options);
+      }
+export type GetQuizSubscriptionHookResult = ReturnType<typeof useGetQuizSubscription>;
+export type GetQuizSubscriptionResult = Apollo.SubscriptionResult<GetQuizSubscription>;

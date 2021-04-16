@@ -1,11 +1,11 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { splitLink } from './apolloClient'
+import { splitLink } from '../apolloClient';
 
 import '~/styles/globals.css';
 
 const client = new ApolloClient({
   link: splitLink,
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 function MyApp({ Component, pageProps }) {

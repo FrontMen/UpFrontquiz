@@ -1,47 +1,9 @@
-// import { PubSub } from "apollo-server";
-// export const pubsub = new PubSub();
+import * as mq from "mqemitter";
 
-import { EventEmitter } from "events";
-
-export type PUBSUB_EVENTS =
-  | "TIMER"
-  | "USER_CHANGE"
-  | "QUIZ_CHANGE"
-  | "QUESTION_CHANGE"
-  | string;
-
-class PubSub {
-  emitter: EventEmitter;
-  constructor() {
-    this.emitter = new EventEmitter();
-  }
-
-  async subscribe(topic: PUBSUB_EVENTS, queue: any) {
-    const listener = (value) => {
-      queue.push(value);
-    };
-
-    const close = () => {
-      this.emitter.removeListener(topic, listener);
-    };
-
-    this.emitter.on(topic, listener);
-    queue.close = close;
-  }
-
-  publish(
-    event: { topic: PUBSUB_EVENTS; payload: any },
-    callback?: () => void
-  ) {
-    this.emitter.emit(event.topic, event.payload);
-    callback && callback();
-  }
-}
-
-export const pubsub = new PubSub();
+export const emitter: mq.MQEmitter = (mq as any)({});
 
 setInterval(() => {
-  pubsub.publish({
+  emitter.emit({
     topic: "TIMER",
     payload: { timer: Math.round(Date.now() / 1000) },
   });

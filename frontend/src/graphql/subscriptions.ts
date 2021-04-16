@@ -7,12 +7,33 @@ export const testTimer = gql`
 `;
 
 export const getUsers = gql`
-  subscription getUsers {
-    users {
+  subscription getUsers($userId: String!) {
+    users(userId: $userId) {
+      player1 {
+        id
+        name
+        timeLeft
+        active
+      }
+      player2 {
+        id
+        name
+        timeLeft
+        active
+      }
+    }
+  }
+`;
+
+export const getQuiz = gql`
+  subscription getQuiz {
+    quiz {
       id
-      name
-      timeLeft
       active
+      currentQuestion
+      questions {
+        question
+      }
     }
   }
 `;

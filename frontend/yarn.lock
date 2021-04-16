@@ -897,6 +897,11 @@
   resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.1.1.tgz#9daf5745156fd84b8e9889a2dc721f0c58e894aa"
   integrity sha512-CAEbWH7OIur6jEOzaai83jq3FmKmv4PmX1JYfs9IrYcGEVI/lyL1EXJGCj7eFVJ0bg5QR8LMxBlEtA+xKiLpFw==
 
+"@hookstate/core@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@hookstate/core/-/core-3.0.6.tgz#1a686d05076f0c58e2c96c9afa2bed85964f2577"
+  integrity sha512-WxFM9gYJvjIXqnpRw74ue+5pEAHzTWf7CbAYV33yFTD9rxCw4o/aeGkAQO+alB+fXjIZuiZzRntP/BAbzAguKw==
+
 "@iarna/toml@^2.2.5":
   version "2.2.5"
   resolved "https://registry.npmjs.org/@iarna/toml/-/toml-2.2.5.tgz#b32366c89b43c6f8cefbdefac778b9c828e3ba8c"
