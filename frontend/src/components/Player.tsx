@@ -6,7 +6,7 @@ import useGameState from '../hooks/gameState';
 
 import styles from '~/styles/player.module.scss'
 
-export default function Player({ id }: TPlayerProps) {
+export default function Player({ id, timeLeft }: TPlayerProps) {
     const gameState = useGameState()
 
     return (
@@ -23,7 +23,7 @@ export default function Player({ id }: TPlayerProps) {
                             strokeBgColor="transparent"
                             strokeColor="rgba(255, 255, 255, .7)"
                             strokeWidth={8}
-                            countdown={130}
+                            countdown={timeLeft}
                             isPlaying={true}
                         />
                     </>
