@@ -1,23 +1,18 @@
-import styles from '~/styles/player.module.scss'
 import * as React from "react";
 import Countdown from "components/Countdown";
+import { TPlayerProps } from '@types';
+import useGameState from '../hooks/gameState';
 
 
-const COLOR_CODES = {
-    remainingPathColor: "green"
-}
+import styles from '~/styles/player.module.scss'
 
-type PlayerProps = {
-    name: string
-}
-
-export default function Player({name}: PlayerProps) {
-    const remainingPathColor = COLOR_CODES.remainingPathColor
+export default function Player({ id }: TPlayerProps) {
+    const gameState = useGameState()
 
     return (
-        <section>
+        <section className={styles.wrapper}>
             <header>
-                <h2>{name}</h2>
+                <h2>{gameState.getPlayerById(id).name}</h2>
             </header>
             <Countdown
                 seconds={10}
