@@ -13,26 +13,49 @@ export type Scalars = {
   Float: number;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  questions?: Maybe<Array<Maybe<Question>>>;
-  add?: Maybe<Scalars['Int']>;
+export type Mutation = {
+  __typename?: 'Mutation';
+  join?: Maybe<User>;
 };
 
 
-export type QueryAddArgs = {
-  x?: Maybe<Scalars['Int']>;
-  y?: Maybe<Scalars['Int']>;
+export type MutationJoinArgs = {
+  name: Scalars['String'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  questions?: Maybe<Array<Maybe<Question>>>;
 };
 
 export type Question = {
   __typename?: 'Question';
-  title?: Maybe<Scalars['String']>;
+  quizId: Scalars['String'];
+  question: Scalars['String'];
+};
+
+export type Quiz = {
+  __typename?: 'Quiz';
+  id?: Maybe<Scalars['String']>;
+};
+
+export type Results = {
+  __typename?: 'Results';
+  quizId: Scalars['String'];
+  users?: Maybe<Array<Maybe<User>>>;
 };
 
 export type Subscription = {
   __typename?: 'Subscription';
   timer?: Maybe<Scalars['Int']>;
+  question?: Maybe<Question>;
+  users: Array<Maybe<User>>;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 
@@ -113,42 +136,77 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
-  Question: ResolverTypeWrapper<Question>;
+  Mutation: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Query: ResolverTypeWrapper<{}>;
+  Question: ResolverTypeWrapper<Question>;
+  Quiz: ResolverTypeWrapper<Quiz>;
+  Results: ResolverTypeWrapper<Results>;
   Subscription: ResolverTypeWrapper<{}>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
+  User: ResolverTypeWrapper<User>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
-  Int: Scalars['Int'];
-  Question: Question;
+  Mutation: {};
   String: Scalars['String'];
+  Query: {};
+  Question: Question;
+  Quiz: Quiz;
+  Results: Results;
   Subscription: {};
+  Int: Scalars['Int'];
+  User: User;
   Boolean: Scalars['Boolean'];
+};
+
+export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  join?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, RequireFields<MutationJoinArgs, 'name'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   questions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Question']>>>, ParentType, ContextType>;
-  add?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType, RequireFields<QueryAddArgs, never>>;
 };
 
 export type QuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Question'] = ResolversParentTypes['Question']> = {
-  title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  quizId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  question?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type QuizResolvers<ContextType = any, ParentType extends ResolversParentTypes['Quiz'] = ResolversParentTypes['Quiz']> = {
+  id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type ResultsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Results'] = ResolversParentTypes['Results']> = {
+  quizId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  users?: Resolver<Maybe<Array<Maybe<ResolversTypes['User']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type SubscriptionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   timer?: SubscriptionResolver<Maybe<ResolversTypes['Int']>, "timer", ParentType, ContextType>;
+  question?: SubscriptionResolver<Maybe<ResolversTypes['Question']>, "question", ParentType, ContextType>;
+  users?: SubscriptionResolver<Array<Maybe<ResolversTypes['User']>>, "users", ParentType, ContextType>;
+};
+
+export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Question?: QuestionResolvers<ContextType>;
+  Quiz?: QuizResolvers<ContextType>;
+  Results?: ResultsResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };
 
 

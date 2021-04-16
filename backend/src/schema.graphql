@@ -1,12 +1,32 @@
+type Quiz {
+  id: String
+}
+
 type Question {
-  title: String
+  quizId: String!
+  question: String!
+}
+
+type Results {
+  quizId: String!
+  users: [User]
 }
 
 type Query {
   questions: [Question]
-  add(x: Int, y: Int): Int
+}
+
+type Mutation {
+  join(name: String!): User
+}
+
+type User {
+  id: String!
+  name: String!
 }
 
 type Subscription {
   timer: Int
+  question: Question
+  users: [User]!
 }
