@@ -26,6 +26,7 @@ export type MutationJoinArgs = {
 export type Query = {
   __typename?: 'Query';
   questions?: Maybe<Array<Maybe<Question>>>;
+  users: Array<Maybe<User>>;
 };
 
 export type Question = {
@@ -168,6 +169,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   questions?: Resolver<Maybe<Array<Maybe<ResolversTypes['Question']>>>, ParentType, ContextType>;
+  users?: Resolver<Array<Maybe<ResolversTypes['User']>>, ParentType, ContextType>;
 };
 
 export type QuestionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Question'] = ResolversParentTypes['Question']> = {
