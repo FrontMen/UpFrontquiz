@@ -1,20 +1,14 @@
 import styles from '~/styles/index.module.scss'
 import AnswersList from "components/AnswersList";
+import * as React from "react";
+import Player from "components/Player";
 
 export default function Home() {
   return (
     <main className={styles.container}>
-        <section >
-            <header>
-                <h2>Team 1</h2>
-            </header>
-        </section>
+        <Player name="player1" />
         <AnswersList/>
-        <section >
-            <header>
-                <h2>Team 2</h2>
-            </header>
-        </section>
+        <Player name="player2" />
         <section >
             <button>Pass</button>
             <h1>Question?</h1>
