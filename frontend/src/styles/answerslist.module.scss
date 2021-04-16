@@ -1,4 +1,33 @@
 .answerslist {
   display: flex;
+  flex-flow: column nowrap;
   flex: 1 1 auto;
+  margin: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.answer {
+  display: flex;
+  color: #fff;
+  background: #4ab800;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.answerslist :nth-child(2) {
+  width: 80%;
+}
+.answerslist :nth-child(3) {
+  width: 60%;
+}
+.answerslist :nth-child(4) {
+  width: 40%;
+}
+.answerslist :nth-child(5) {
+  width: 20%;
+}
+
+.answer ~ .answer {
+  margin-top: 1rem;
 }

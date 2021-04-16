@@ -1,18 +1,13 @@
-import styles from '~/styles/answerslist.module.scss'
+import styles from '~/styles/answerslist.module.scss';
 
 export default function AnswersList() {
-    return (
-        <section className={styles.answerslist}>
-            <header>
-                <h2>Answers</h2>
-            </header>
-            <ul>
-                <li>answer 1</li>
-                <li>answer 2</li>
-                <li>answer 3</li>
-                <li>answer 4</li>
-                <li>answer 5</li>
-            </ul>
-        </section>
-    )
+  return (
+    <ul className={styles.answerslist}>
+      <li className={styles.answer}>answer 1</li>
+      <li className={styles.answer}>answer 2</li>
+      <li className={styles.answer}>answer 3</li>
+      <li className={styles.answer}>answer 4</li>
+      <li className={styles.answer}>answer 5</li>
+    </ul>
+  );
 }
