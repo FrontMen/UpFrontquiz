@@ -6,20 +6,27 @@ export class AppService {
     return "Hello World!";
   }
 
-  getTimeDuration(): object {
-    const maxTime = 180000;
+  getTimeDuration(): any {
+    const maxTime = 180;
     let startTime: number | null = null;
     let stopTime: number | null = null;
-    let running = false;
+    let running: boolean = false;
+    let timeSettings: any = {
+      message: "",
+      timeDuration: "",
+      running,
+    };
 
     function getStartTime(): void {
-      const startClock = new Date();
-      startTime = startClock.getTime();
+      const startClock = Math.round(Date.now() / 1000);
+      running = true;
+      startTime = startClock;
     }
 
     function getStopTime(): void {
-      const stopClock = new Date();
-      stopTime = stopClock.getTime();
+      const stopClock = Math.round(Date.now() / 1000);
+      running = false;
+      stopTime = stopClock;
     }
 
     function timeDuration() {
@@ -34,14 +41,18 @@ export class AppService {
     }
 
     if (timeDuration() < maxTime) {
-      return {
-        message: `Answerd in: ${timeDuration()} s`,
+      timeSettings = {
+        message: `Answered in ${timeDuration()}`,
+        timeDuration: timeDuration(),
+        running,
       };
     }
 
     if (timeDuration() >= maxTime) {
-      return {
+      timeSettings = {
         message: "Sorry your time is up",
+        timeDuration: 180,
+        running: false,
       };
     }
   }

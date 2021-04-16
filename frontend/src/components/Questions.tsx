@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
 
-import styles from './Questions.module.scss';
+import styles from '~/styles/questions.module.scss';
 
 export interface QuestionsProps {}
 
