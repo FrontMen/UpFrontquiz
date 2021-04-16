@@ -1,4 +1,4 @@
-import BackgroundComponent from '../components/background'
+import Background from '../components/Background'
 import AnswersList from 'components/AnswersList';
 import Questions from 'components/Questions';
 
@@ -7,7 +7,7 @@ import styles from '~/styles/index.module.scss';
 export default function Home() {
   return (
     <main className={styles.container}>
-      <BackgroundComponent />
+      <Background />
       <section>
         <header>
           <h2>Team 1</h2>
