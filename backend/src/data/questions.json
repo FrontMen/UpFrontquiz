@@ -1,0 +1,29 @@
+{
+  "questions": [
+    {
+      "question": "What is the first word you think of when you hear the word JavaScript",
+      "answers": {
+        "1": {
+          "answer": "Typescript",
+          "points": 5
+        },
+        "2": {
+          "answer": "EcmaScript",
+          "points": 4
+        },
+        "3": {
+          "answer": "ES6",
+          "points": 3
+        },
+        "4": {
+          "answer": "Bla",
+          "points": 2
+        },
+        "5": {
+          "answer": "Yes",
+          "points": 1
+        }
+      }
+    }
+  ]
+}
