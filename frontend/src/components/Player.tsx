@@ -15,11 +15,11 @@ export default function Player({ id }: TPlayerProps) {
                 <h2>{gameState.getPlayerById(id).name}</h2>
             </header>
             <Countdown
-                seconds={10}
+                seconds={300}
                 size={60}
-                strokeBgColor="blue"
+                strokeBgColor="transparent"
                 strokeColor="rgba(255, 255, 255, .7)"
-                strokeWidth={7}
+                strokeWidth={8}
                 countdown={120}
                 isPlaying={true}
             />

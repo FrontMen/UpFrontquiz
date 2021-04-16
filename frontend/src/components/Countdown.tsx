@@ -11,22 +11,25 @@ type Props = {
     isPlaying: boolean;
 };
 
+let milliseconds:number = 0
+let radius:number = 0
+let circumference:number = 0
+let strokeDashoffset:number = 0
+let strokeDashoffsetCalculation = (countdown):number =>
+    circumference -
+    (countdown / milliseconds) * circumference
+
+
 export default class Countdown extends React.Component<Props> {
-    milliseconds: number;
-    radius: number;
-    circumference: number;
-    strokeDashoffset: () => number;
 
     constructor(props: Props) {
         super(props);
 
-        this.milliseconds = this.props.seconds * 1000;
-        this.radius = this.props.size / 2;
-        this.circumference = this.props.size * Math.PI;
+        milliseconds = this.props.seconds * 1000;
+        radius = this.props.size / 2;
+        circumference = this.props.size * Math.PI;
 
-        this.strokeDashoffset = () =>
-            this.circumference -
-            (this.props.countdown / this.milliseconds) * this.circumference;
+        strokeDashoffset = strokeDashoffsetCalculation(this.props.countdown)
     }
 
     render() {
@@ -53,9 +56,9 @@ export default class Countdown extends React.Component<Props> {
                     <p style={textStyles}>{seconds}s</p>
                     <svg className={styles.svg}>
                         <circle
-                            cx={this.radius}
-                            cy={this.radius}
-                            r={this.radius}
+                            cx={radius}
+                            cy={radius}
+                            r={radius}
                             fill="none"
                             stroke={this.props.strokeBgColor}
                             strokeWidth={this.props.strokeWidth}
@@ -63,15 +66,15 @@ export default class Countdown extends React.Component<Props> {
                     </svg>
                     <svg className={styles.svg}>
                         <circle
-                            strokeDasharray={this.circumference}
+                            strokeDasharray={circumference}
                             strokeDashoffset={
-                                this.props.isPlaying ? this.strokeDashoffset() : 0
+                                this.props.isPlaying ? strokeDashoffsetCalculation(this.props.countdown) : 0
                             }
-                            r={this.radius}
-                            cx={this.radius}
-                            cy={this.radius}
+                            r={radius}
+                            cx={radius}
+                            cy={radius}
                             fill="none"
-                            strokeLinecap="round"
+                            strokeLinecap="square"
                             stroke={this.props.strokeColor}
                             strokeWidth={this.props.strokeWidth}
                         ></circle>
