@@ -2,7 +2,7 @@ import { join } from "path";
 import { readFileSync } from "fs";
 import mercurius from "mercurius";
 import Fastify from "fastify";
-import fastifyWebsocket from "fastify-websocket";
+import fastifyCors from "fastify-cors";
 
 const { pubsub } = require("./pubsub");
 const { resolvers } = require("./resolvers");
@@ -10,11 +10,7 @@ const typeDefs = readFileSync(join(__dirname, "./schema.graphql"), "utf8");
 
 const app = Fastify();
 
-app.register(fastifyWebsocket, {
-  options: {
-    maxPayload: 1048576,
-  },
-});
+app.register(fastifyCors, { origin: true });
 
 app.register(mercurius, {
   schema: typeDefs,

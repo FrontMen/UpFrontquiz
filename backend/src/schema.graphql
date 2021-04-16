@@ -1,5 +1,7 @@
 type Quiz {
-  id: String
+  id: String!
+  active: Boolean!
+  currentQuestion: Int
 }
 
 type Question {
@@ -12,22 +14,33 @@ type Results {
   users: [User]
 }
 
+type User {
+  id: String!
+  name: String!
+  timeLeft: Int!
+  active: Boolean!
+}
+
+type UserState {
+  player1: User!
+  player2: User!
+}
+
 type Query {
-  questions: [Question]
   users: [User]!
+  question: Question
 }
 
 type Mutation {
   join(name: String!): User
-}
-
-type User {
-  id: String!
-  name: String!
+  startQuiz: Boolean
+  answerQuestion(userId: String, answer: String): Boolean
+  reset: Boolean
 }
 
 type Subscription {
   timer: Int
   question: Question
-  users: [User]!
+  quiz: Quiz
+  users(userId: String): UserState
 }
