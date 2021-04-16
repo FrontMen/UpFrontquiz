@@ -27,6 +27,7 @@ export type MutationJoinArgs = {
 export type Query = {
   __typename?: 'Query';
   questions?: Maybe<Array<Maybe<Question>>>;
+  users: Array<Maybe<User>>;
 };
 
 export type Question = {
