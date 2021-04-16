@@ -1,8 +1,36 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { join } from "path";
+import { readFileSync } from "fs";
+import mercurius from "mercurius";
+import Fastify from "fastify";
+import fastifyWebsocket from "fastify-websocket";
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+const { pubsub } = require("./pubsub");
+const { resolvers } = require("./resolvers");
+const typeDefs = readFileSync(join(__dirname, "./schema.graphql"), "utf8");
+
+const app = Fastify();
+
+app.register(fastifyWebsocket, {
+  options: {
+    maxPayload: 1048576,
+  },
+});
+
+app.register(mercurius, {
+  schema: typeDefs,
+  resolvers,
+  subscription: {
+    pubsub,
+  },
+  graphiql: "playground",
+});
+
+app.get("/", async function (req, reply) {
+  const query = "{ add(x: 2, y: 2) }";
+  return reply.graphql(query);
+});
+
+(async function () {
   await app.listen(3000);
-}
-bootstrap();
+  console.log("Graphql server running on http://127.0.0.1:3000/graphql");
+})();

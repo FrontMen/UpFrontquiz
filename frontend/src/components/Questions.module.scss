@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 1rem;
+}
+.answerForm {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.question {
+}
+.questionBlock {
+  background: #fff;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+.answerField {
+  padding: 1rem;
+  border: 0;
+  background: #fff;
+  border-radius: 0.25rem;
+}
+.answerInput {
+  flex-grow: 5;
+}
+.answerSubmit {
+  cursor: pointer;
+  margin-left: 1rem;
+  flex-grow: 1;
+  background: #ffc600;
+  color: #fff;
+  text-transform: uppercase;
+}
