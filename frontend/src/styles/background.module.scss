@@ -4,8 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
-  background: red;
+  z-index: -1;
 }
 
 .playersContainer {
@@ -27,7 +26,7 @@
 
   .p1 {
     background: blue;
-    
+
     &--active {
       flex-basis: 66%;
     }
