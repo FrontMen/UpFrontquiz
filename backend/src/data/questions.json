@@ -4,24 +4,19 @@
       "question": "What is the first word you think of when you hear the word JavaScript",
       "answers": {
         "1": {
-          "answer": "Typescript",
-          "points": 5
+          "answer": "Typescript"
         },
         "2": {
-          "answer": "EcmaScript",
-          "points": 4
+          "answer": "EcmaScript"
         },
         "3": {
-          "answer": "ES6",
-          "points": 3
+          "answer": "ES6"
         },
         "4": {
-          "answer": "Bla",
-          "points": 2
+          "answer": "Bla"
         },
         "5": {
-          "answer": "Yes",
-          "points": 1
+          "answer": "Yes"
         }
       }
     }
