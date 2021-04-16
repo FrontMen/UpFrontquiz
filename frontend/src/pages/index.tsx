@@ -1,4 +1,5 @@
 import styles from '~/styles/index.module.scss'
+import AnswersList from "components/AnswersList";
 
 export default function Home() {
   return (
@@ -8,11 +9,7 @@ export default function Home() {
                 <h2>Team 1</h2>
             </header>
         </section>
-        <section >
-            <header>
-                <h2>Answers</h2>
-            </header>
-        </section>
+        <AnswersList/>
         <section >
             <header>
                 <h2>Team 2</h2>
