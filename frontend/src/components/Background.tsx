@@ -16,10 +16,9 @@ const BackgroundComponent = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.playersContainer}>
-        <div className={[styles.p1, ...(gameState.player1.isActive ? [styles[`p1--active`]] : [])].join(' ')}>{ gameState.player1.name }</div>
-        <div className={[styles.p2, ...(gameState.player2.isActive ? [styles[`p2--active`]] : [])].join(' ')}>{ gameState.player2.name }</div>
+        <div className={[styles.p1, ...(gameState.player1.isActive ? [styles[`p1--active`]] : [])].join(' ')} />
+        <div className={[styles.p2, ...(gameState.player2.isActive ? [styles[`p2--active`]] : [])].join(' ')} />
       </div>
-      <div className={styles.switchBtn}>SWITCH BTN COMPONENT</div>
     </div>
   )
 }
