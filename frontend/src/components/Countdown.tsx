@@ -11,76 +11,63 @@ type Props = {
     isPlaying: boolean;
 };
 
-let milliseconds:number = 0
-let radius:number = 0
-let circumference:number = 0
-let strokeDashoffset:number = 0
-let strokeDashoffsetCalculation = (countdown):number =>
+let strokeDashoffsetCalculation = (countdown, seconds, circumference):number =>
     circumference -
-    (countdown / milliseconds) * circumference
+    (countdown / seconds) * circumference
 
+export default function Countdown({seconds, size, countdown, strokeBgColor, strokeColor, strokeWidth, isPlaying}: Props) {
 
-export default class Countdown extends React.Component<Props> {
+    let radius = size / 2;
+    let circumference = size * Math.PI;
+    let strokeDashoffset = strokeDashoffsetCalculation(countdown, seconds, circumference)
 
-    constructor(props: Props) {
-        super(props);
+    const countdownSizeStyles = {
+        height: size,
+        width: size,
+    };
 
-        milliseconds = this.props.seconds * 1000;
-        radius = this.props.size / 2;
-        circumference = this.props.size * Math.PI;
+    const textStyles = {
+        color: strokeColor,
+        fontSize: size * 0.3,
+    };
 
-        strokeDashoffset = strokeDashoffsetCalculation(this.props.countdown)
-    }
+    const secondsLeft = countdown.toFixed();
 
-    render() {
-        const countdownSizeStyles = {
-            height: this.props.size,
-            width: this.props.size,
-        };
-
-        const textStyles = {
-            color: this.props.strokeColor,
-            fontSize: this.props.size * 0.3,
-        };
-
-        const seconds = (this.props.countdown / 1000).toFixed();
-
-        return (
-            <div>
-                <div
-                    className={
-                        styles.countdownContainer
-                    }
-                    style={countdownSizeStyles}
-                >
-                    <p style={textStyles}>{seconds}s</p>
-                    <svg className={styles.svg}>
-                        <circle
-                            cx={radius}
-                            cy={radius}
-                            r={radius}
-                            fill="none"
-                            stroke={this.props.strokeBgColor}
-                            strokeWidth={this.props.strokeWidth}
-                        ></circle>
-                    </svg>
-                    <svg className={styles.svg}>
-                        <circle
-                            strokeDasharray={circumference}
-                            strokeDashoffset={
-                                this.props.isPlaying ? strokeDashoffsetCalculation(this.props.countdown) : 0
-                            }
-                            r={radius}
-                            cx={radius}
-                            cy={radius}
-                            fill="none"
-                            strokeLinecap="square"
-                            stroke={this.props.strokeColor}
-                            strokeWidth={this.props.strokeWidth}
-                        ></circle>
-                    </svg>
-                </div>
+    return (
+        <div>
+            <div
+                className={
+                    styles.countdownContainer
+                }
+                style={countdownSizeStyles}
+            >
+                <p style={textStyles}>{secondsLeft}s</p>
+                <svg className={styles.svg}>
+                    <circle
+                        cx={radius}
+                        cy={radius}
+                        r={radius}
+                        fill="none"
+                        stroke={strokeBgColor}
+                        strokeWidth={strokeWidth}
+                    ></circle>
+                </svg>
+                <svg className={styles.svg}>
+                    <circle
+                        strokeDasharray={circumference}
+                        strokeDashoffset={
+                            isPlaying ? strokeDashoffset : 0
+                        }
+                        r={radius}
+                        cx={radius}
+                        cy={radius}
+                        fill="none"
+                        strokeLinecap="square"
+                        stroke={strokeColor}
+                        strokeWidth={strokeWidth}
+                    ></circle>
+                </svg>
             </div>
-        );
-    }
+        </div>
+    );
 }

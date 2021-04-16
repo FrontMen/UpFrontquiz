@@ -20,7 +20,7 @@ export default function Player({ id }: TPlayerProps) {
                 strokeBgColor="transparent"
                 strokeColor="rgba(255, 255, 255, .7)"
                 strokeWidth={8}
-                countdown={120}
+                countdown={130}
                 isPlaying={true}
             />
         </section>
